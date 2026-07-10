@@ -1,9 +1,41 @@
-<!DOCTYPE html>
-<html>
-<body>
+{% extends "base.html" %}
+{% load static %}
+{% block barra %}
+{{ titulo}} <a href="{% url 'miembros_create' %}"><img src="{%static 'images/icons8-más-96.png' %}" height="40" width="40"></a>
+<form method="post" >
+    {% csrf_token %}
+    <input type="text" name="fname" value="" placeholder="nombre">
+    <input type="text" name="lname" value="" placeholder="apellido">
+    <input type="submit" value="Filtrar">
+</form> 
+{% endblock %}
 
-<h1>Hello World!</h1>
-<p>Welcome to my first Django project!</p>
+{% block content %}
+<div class="container mt-3">  
 
-</body>
-</html>
+  <table class="table table-hover">
+      
+    <thead>
+      <tr class="table-info">
+        <th>Acciones</th>
+        <th>Firstname </th>
+        <th>Lastname </th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      {% for miembro in miembros %}
+      <tr>
+        <td>
+            <a href="{% url 'miembros_update' miembro.id %}"><img src="{%static 'images/icons8-editar-96.png' %}" height="40" width="40"></a>
+            <a href="{% url 'miembros_delete' miembro.id %}"><img src="{%static 'images/icons8-eliminar-96.png' %}" height="40" width="40"></a>
+        <td>{{ miembro.firstname }}</td>
+        <td>{{ miembro.lastname }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+{% endblock %}
